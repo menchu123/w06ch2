@@ -22,7 +22,7 @@ const generateHTML = ({
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora 🐟</title>
 </head>
 <body style="font-family:monospace;padding:40px">
@@ -46,7 +46,7 @@ const generateErrorHTML = () => `<!DOCTYPE html>
   <title>Calculadora 🐟</title>
 </head>
 <body style="font-family:monospace;padding:40px;color:red">
-  <h1>ERROR!!!!!</h1>
+  <h1>404 ERROR!!!!!</h1>
 </body>
 </html>`;
 
@@ -59,12 +59,16 @@ server.on("request", (request, response) => {
     params.push(+value);
   }
 
-  response.statusCode = 200;
   response.setHeader("Content-Type", "text/html");
+
+  response.statusCode = getParams.pathname !== "/calculator" ? 404 : 200;
+
+  response.setHeader("Content-type", "text/html");
   response.write(
-    isValid(params)
-      ? generateHTML(operation(params[0], params[1]))
-      : generateErrorHTML()
+    !isValid(params) || getParams.pathname !== "/calculator"
+      ? generateErrorHTML()
+      : generateHTML(operation(params[0], params[1]))
   );
+
   response.end();
 });
