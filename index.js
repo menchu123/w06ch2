@@ -1,6 +1,7 @@
 require("dotenv").config();
 const http = require("http");
 const operation = require("./operation");
+const isValid = require("./isValid");
 
 const server = http.createServer();
 
@@ -44,6 +45,7 @@ server.on("request", (request, response) => {
   for (const value of values) {
     params.push(+value);
   }
+
   response.statusCode = 200;
   response.setHeader("Content-Type", "text/html");
   response.write(generateHTML(operation(params[0], params[1])));
