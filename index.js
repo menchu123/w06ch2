@@ -1,6 +1,7 @@
 require("dotenv").config();
 const http = require("http");
 const operation = require("./operation");
+const isValid = require("./isValid");
 
 const server = http.createServer();
 
@@ -36,6 +37,19 @@ const generateHTML = ({
 </body>
 </html>`;
 
+const generateErrorHTML = () => `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=, initial-scale=1.0">
+  <title>Calculadora 🐟</title>
+</head>
+<body>
+  <h1>ERROR!!!!!</h1>
+</body>
+</html>`;
+
 server.on("request", (request, response) => {
   const getParams = new URL(request.url, `htpp://${request.headers.host}`);
   const values = getParams.searchParams.values();
@@ -44,8 +58,13 @@ server.on("request", (request, response) => {
   for (const value of values) {
     params.push(+value);
   }
+
   response.statusCode = 200;
   response.setHeader("Content-Type", "text/html");
-  response.write(generateHTML(operation(params[0], params[1])));
+  response.write(
+    isValid(params)
+      ? generateHTML(operation(params[0], params[1]))
+      : generateErrorHTML()
+  );
   response.end();
 });
