@@ -25,10 +25,10 @@ const generateHTML = ({
   <meta name="viewport" content="width=, initial-scale=1.0">
   <title>Calculadora 🐟</title>
 </head>
-<body>
+<body style="font-family:monospace">
   <h1>Calculadora 🐟</h1>
-  <div>Resultados:</div>
-  <ul>
+  <div style="padding-inline-start:40px;font-size:18px">Resultados:</div>
+  <ul style="list-style-type:none;font-size:18px">
     <li>${num1} + ${num2} = ${sum}</li>
     <li>${num1} - ${num2} = ${substraction}</li>
     <li>${num1} * ${num2} = ${multiplication}</li>
@@ -46,7 +46,7 @@ const generateErrorHTML = () => `<!DOCTYPE html>
   <title>Calculadora 🐟</title>
 </head>
 <body>
-  <h1>ERROR!!!!!</h1>
+  <h1 style="font-family:monospace">ERROR!!!!!</h1>
 </body>
 </html>`;
 
