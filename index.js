@@ -1,11 +1,20 @@
 require("dotenv").config();
 const http = require("http");
+const { program } = require("commander");
 const operation = require("./operation");
 const isValid = require("./isValid");
 
+program.option("-p, --port <port>");
+program.parse(process.argv);
+
 const server = http.createServer();
 
-const port = process.env.SERVER_CALCULATOR_TERMINATOR || 5000;
+let port;
+if (program.opts().port && !Number.isNaN(program.opts().port)) {
+  port = program.opts().port;
+} else {
+  port = process.env.SERVER_CALCULATOR_TERMINATOR || 5000;
+}
 
 server.listen(port);
 
